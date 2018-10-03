@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+      {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- 标签 -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% endblock meta %}
+
+      <title>Salt 运维平台</title>
+
+      {% block stylesheets %}
+        <!-- Bootstrap -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <!-- 图标字体库 -->
+        <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+        <!-- 进度条 -->
+        <link href="/static/css/nprogress.css" rel="stylesheet">
+        <!-- 日期插件 -->
+        <link href="/static/css/daterangepicker.css" rel="stylesheet">
+        <!-- 点击事件 -->
+        <link href="/static/css/green.css" rel="stylesheet">
+        <!-- bootstrap 进度条 -->
+        <link href="/static/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+        <!-- 表单校验 -->
+        <link href="/static/css/bootstrapValidator.min.css" rel="stylesheet">
+      {% endblock stylesheets %}
+      <!-- 自定义CSS样式 -->
+      <link href="/static/css/custom.min.css" rel="stylesheet">
+      <link href="/static/css/tablestdout.init.css" rel="stylesheet">
+    {% endblock head %}
+  </head>
+
+  <body class="{% block body_class %}nav-md {% endblock body_class %}">
+    {% block body %}
+      <div class="container body">
+        <div class="main_container">
+
+          {% block sidebar %}
+            <div class="col-md-3 left_col {% block sidebar_class %} {% endblock sidebar_class %}">
+              {% include "sidebar.html" %}
+            </div>
+          {% endblock sidebar %}
+
+          {% block top_navigation %}
+            <div class="top_nav">
+              {% include "top_navigation.html" %}
+            </div>
+          {% endblock top_navigation %}
+
+          {% block content %}
+            <!-- {{ content }} -->
+          {% endblock content %}
+
+          {% block footer %}
+            <footer>
+              <div class="pull-right"></div>
+              <div class="clearfix"></div>
+            </footer>
+          {% endblock footer %}
+        </div>
+      </div>
+
+      {% block javascripts %}
+        <!-- jQuery -->
+        <script src="/static/js/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- 消除点击延时插件 -->
+        <script src="/static/js/fastclick.js"></script>
+        <!-- 进度条插件 -->
+        <script src="/static/js/nprogress.js"></script>
+        <!-- bootstrap 进度条插件 -->
+        <script src="/static/js/bootstrap-progressbar.min.js"></script>
+        <!-- 点击事件插件 -->
+        <script src="/static/js/icheck.min.js"></script>
+        <!-- 日期插件 -->
+        <script src="/static/js/moment.min.js"></script>
+        <script src="/static/js/daterangepicker.js"></script>
+        <!-- 标签功能加强插件 -->
+        <script src="/static/js/jquery.tagsinput.js"></script>
+        <!-- 复选框插件 -->
+        <script src="/static/js/switchery.min.js"></script>
+        <!-- 下拉框插件 -->
+        <script src="/static/js/select2.full.min.js"></script>
+        <!-- 自动适应大小插件 -->
+        <script src="/static/js/autosize.min.js"></script>
+        <!-- 自动补全查询 -->
+        <script src="/static/js/jquery.autocomplete.min.js"></script>
+        <!-- 提示插件 -->
+        <script src="/static/js/bootbox.min.js"></script>
+        <!-- 表单校验插件 -->
+        <script src="/static/js/parsley.min.js"></script>
+        <script src="/static/js/bootstrapValidator.min.js"></script>
+
+        <script src="/static/js/jquery.dataTables.min.js"></script>
+        <script src="/static/js/dataTables.bootstrap.min.js"></script>
+      {% endblock %}
+      <!-- 自定义js -->
+      <script src="/static/js/custom.min.js"></script>
+      <script src="/static/js/tables.init.js"></script>
+    {% endblock body %}
+  </body>
+</html>

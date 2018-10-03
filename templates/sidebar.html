@@ -1,0 +1,78 @@
+<div class="left_col scroll-view">
+  <div class="navbar nav_title" style="border: 0;">
+    <a href="{% url 'index' %}" class="site_title"><i class="fa fa-spinner"></i> <span>Salt 运维平台</span></a>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <!-- 菜单配置 -->
+  <div class="profile clearfix col-center-block">
+    <div class="profile_pic col-center-block">
+      <img src="/static/images/img.jpg" alt="..." class="img-circle profile_img col-center-block">
+    </div>
+  </div>
+  <!-- 菜单配置 -->
+
+  <br />
+
+  <!-- 侧边栏配置 -->
+  <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        {% if request.user.is_authenticated %}
+          <h3 align="center">欢迎登录: {{ request.user.username }}</h3>
+        {% endif %}
+      <ul class="nav side-menu">
+        <li><a href="/"><i class="fa fa-home"></i>控制面板<span class="label label-success pull-right"></span></a></li>
+        <li><a><i class="fa fa-user"></i>用户管理<span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{% url 'users_list' %}">用户列表</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-circle-o-notch"></i>资产管理<span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{% url 'hosts_list' %}">主机管理</a></li>
+            <li><a href="{% url 'group_list' %}">属组管理</a></li>
+            <li><a href="{% url 'idc_list' %}">机房管理</a></li>
+            <li><a href="{% url 'cabinet_list' %}">机柜管理</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-cogs"></i>项目管理<span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="#">项目列表</a></li>
+            <li><a href="#">项目审计</a></li>
+            <li><a href="#">项目发布</a></li>
+            <li><a href="#">项目回滚</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-globe"></i>域名管理<span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{% url 'dns_list' %}">域名列表</a></li>
+            <li><a href="#">操作记录</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-warning"></i>故障管理<span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="{% url 'fault_list' %}">故障列表</a></li>
+            <li><a href="{% url 'type_list' %}">故障类型</a></li>
+            <li><a href="#">操作记录</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- 侧边栏配置 -->
+  <div class="sidebar-footer hidden-small">
+    <a data-toggle="tooltip" data-placement="top" title="Settings">
+      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+      <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="Lock">
+      <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+      <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+    </a>
+  </div>
+</div>

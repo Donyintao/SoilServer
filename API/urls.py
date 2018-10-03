@@ -10,4 +10,5 @@ urlpatterns = [
 	url(r'^group_valid/', views.GroupValid, name='group_valid'),
     url(r'^hosts_valid/', views.HostsValid, name='hosts_valid'),
 	url(r'^type_valid/', views.FaultTypeValid, name='type_valid'),
+	url(r'^fault_valid', views.FaultValid, name='fault_valid'),
 ]

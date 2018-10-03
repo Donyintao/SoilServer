@@ -1,0 +1,155 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>主机管理</h3>
+        </div>
+        <div class="title_right"></div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>编辑主机</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <ul class="dropdown-menu" role="menu">
+                  </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+              {% for host in Server %}
+              <form id="up_hostForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'hosts_profile' %}?id={{ host.id }}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="hostname">主机名称 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="hostname" name="hostname" class="form-control col-md-7 col-xs-12" value="{{ host.hostname }}" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for=server_model">主机型号 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="server_model" name="server_model" class="form-control col-md-7 col-xs-12" value="{{ host.server_model }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for=sn">SN序列号 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="sn" name="sn" class="form-control col-md-7 col-xs-12" value="{{ host.sn }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip_address">公网地址 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    {% if host.ip_address is None %}
+                        <input type="text" id="ip_address" name="ip_address" class="form-control col-md-7 col-xs-12" value="">
+                      {% else %}
+                        <input type="text" id="ip_address" name="ip_address" class="form-control col-md-7 col-xs-12" value="{{ host.ip_address }}">
+                      {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nip_address">内网地址 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="nip_address" name="nip_address" class="form-control col-md-7 col-xs-12" value="{{ host.nip_address }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="system_distribution">发行版本 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="system_distribution" name="system_distribution" class="form-control col-md-7 col-xs-12" value="{{ host.system_distribution }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="system_type">系统类型 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="system_type" name="system_type" class="form-control col-md-7 col-xs-12" value="{{ host.system_type }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="system_release">系统版本 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="system_release" name="system_release" class="form-control col-md-7 col-xs-12" value="{{ host.system_release }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kernel_release">内核版本 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="kernel_release" name="kernel_release" class="form-control col-md-7 col-xs-12" value="{{ host.kernel_release }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="group">主机属组 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control" id="group" name="group">
+                      <option value="0"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idc">机房地址 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control" id="idc" name="idc">
+                      <option value="0"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cabinet">机柜地址 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control" id="cabinet" name="cabinet">
+                      <option value="0"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <span class="up_hostValid" CurlId="{{ host.id }}">
+                      <button type="button" class="btn btn-success">保存</button>
+                    </span>
+                    <span class="up_hostReset">
+                      <button class="btn btn-primary" type="reset">重置</button>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/validhostsform.init.js"></script>
+{% endblock javascripts %}

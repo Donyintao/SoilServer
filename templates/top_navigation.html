@@ -1,0 +1,22 @@
+<div class="nav_menu">
+  <nav>
+    <div class="nav toggle">
+      <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="">
+        <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          {% if request.user.is_authenticated %}
+            <img src="/static/images/img.jpg" alt="">{{ request.user.username }}
+            <span class=" fa fa-angle-down"></span>
+          {% endif %}
+        </a>
+        <ul class="dropdown-menu dropdown-usermenu pull-right">
+          <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
+          <li><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,87 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>域名管理</h3>
+        </div>
+        <div class="title_right"></div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>编辑域名</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <ul class="dropdown-menu" role="menu">
+                  </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+              {% for dns in DNS %}
+              <form id="up_dnsForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'dns_profile' %}?id={{ dns.id }}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="host">主机记录 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="host" name="host" class="form-control col-md-7 col-xs-12" value="{{ dns.host }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="type">记录类型 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control" id="type" name="type">
+                      <!-- 记录类型 -->
+                      {% for key,value in DNS_TYPE %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="data">解析地址 <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="data" name="data" class="form-control col-md-7 col-xs-12" value="{{ dns.data }}">
+                  </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <span class="up_dnsValid" CurlId="{{ dns.id }}">
+                      <button type="button" class="btn btn-success">保存</button>
+                    </span>
+                    <span class="up_dnsReset" CurlId="{{ dns.id }}">
+                      <button class="btn btn-primary" type="reset">重置</button>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/validdnsform.init.js"></script>
+{% endblock javascripts %}

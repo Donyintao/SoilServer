@@ -70,3 +70,15 @@ def FaultTypeValid(request):
 			return HttpResponse(json.dumps({'valid': 'false'}))
 	else:
 		type_validform = FaultTypeValidForm()
+		
+'''故障信息校验'''
+@csrf_exempt
+def FaultValid(request):
+	if request.method == 'POST':
+		fault_validform = FaultValidForm(request.POST)
+		if fault_validform.is_valid():
+			return HttpResponse(json.dumps({'valid': 'true'}))
+		else:
+			return HttpResponse(json.dumps({'valid': 'false'}))
+	else:
+		fault_validform = FaultValidForm()

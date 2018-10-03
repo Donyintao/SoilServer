@@ -1,0 +1,12 @@
+.command_valid ul li{
+  list-style: none;
+  margin-left: -40px;
+  color: #a94442;
+}
+
+.login_valid ul li{
+  list-style: none;
+  white-space: nowrap;
+  margin-left: -40px;
+  color: #a94442;
+}

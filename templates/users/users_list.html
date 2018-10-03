@@ -1,0 +1,81 @@
+{% extends "base_site.html" %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/customstderr.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>用户管理</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>用户列表</h2>
+              <ul class="nav navbar-right panel_toolbox">
+			    <li><a class="collapse-link"><i class="glyphicon glyphicon-plus"></i></a>
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <table id="CustomDatatable" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>用户名</th>
+                    <th>中文名</th>
+                    <th>邮箱地址</th>
+                    <th>用户状态</th>
+                    <th>登录时间</th>
+                    <th>手机号码</th>
+                    <th>用户组</th>
+                    <th>部门</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in Users %}
+                    <tr>
+                      <td>{{ user.username }}</td>
+                      <td>{{ user.nickname }}</td>
+                      <td>{{ user.email }}</td>
+                      {% if user.is_active %}
+                        <td>
+                          <a class="btn btn-success btn-xs disabled " style="margin: -5px" href="#">已启用</a>
+                        </td>
+                      {% else %}
+                        <td>
+                         <a class="btn btn-danger btn-xs disabled" style="margin: -5px" href="#">已禁用</a>
+                        </td>
+                      {% endif %}
+                      {% if user.last_login is None %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ user.last_login }}</td>
+                      {% endif %}
+                      <td>{{ user.phone }}</td>
+                      <td>{{ user.groups__name }}</td>
+                      <td>{{ user.department }}</td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

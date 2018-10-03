@@ -1,0 +1,17 @@
+.table-details tr td{
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+.details-right {
+  text-align: right;
+  font-size: 14px;
+  border-top-style: none!important;
+  border-bottom-style: none!important;
+}
+
+.details-left {
+  font-size: 14px;
+  border-top-style: none!important;
+  border-bottom-style: none!important;
+}
