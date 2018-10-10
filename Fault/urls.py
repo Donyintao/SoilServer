@@ -9,7 +9,9 @@ urlpatterns = [
 	url(r'^fault_add/', views.FaultAdd, name='fault_add'),
 	url(r'^fault_list/', views.FaultList, name='fault_list'),
 	url(r'^fault_delete/', views.FaultDel, name='fault_delete'),
-	url(r'^fault_details/',views.FaultDetails, name='fault_details'),
+	url(r'^fault_details/', views.FaultDetails, name='fault_details'),
+	url(r'^fault_update/', views.FaultUpdate, name='fault_update'),
+	url(r'^fault_profile/', views.FaultProfile, name='fault_profile'),
 	# Fault Type URL
 	url(r'^type_list/', views.TypeList, name='type_list'),
 	url(r'^type_add/', views.TypeAdd, name='type_add'),
