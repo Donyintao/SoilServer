@@ -104,7 +104,7 @@ $(function () {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
-            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/group_list'; });
+            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/group_list/'; });
           }
         }
       });
