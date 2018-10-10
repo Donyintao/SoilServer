@@ -3,13 +3,20 @@
 from django.db import models
 import django.utils.timezone as timezone
 
+class Zone(models.Model):
+	name = models.CharField(u'域名', max_length=128, blank=False, null=False, unique=True)
+	create_datetime = models.DateTimeField(u'创建时间', default=timezone.now)
+
+	class Meta:
+		db_table = 'dns_zone'
+
 class DNS(models.Model):
 	dns_type_choice = (
 		('A', 'A- 将域名指向一个IPV4地址'),
 		('CNAME', 'CNAME- 将域名指向另外一个域名'),
 		('AAAA', 'AAAA- 将域名指向一个IPV6地址'),
 	)
-	zone = models.CharField(u'域名', max_length=128, blank=False, null=False)
+	zone = models.ForeignKey(u'Zone', verbose_name=u'域名')
 	host = models.CharField(u'记录名称', max_length=128, blank=False, null=False)
 	type = models.CharField(u'记录类型', max_length=128, choices=dns_type_choice, default='A')
 	data = models.CharField(u'记录值', max_length=128, blank=False, null=False)

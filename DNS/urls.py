@@ -5,10 +5,13 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+	# Zone URL
+	url(r'^zone_list/', views.ZoneList, name='zone_list'),
+	url(r'^zone_add/', views.AddZone, name='zone_add'),
 	# DNS URL
-	url(r'^list/', views.DNS_List, name='dns_list'),
-    url(r'^add/', views.DNS_Add, name='dns_add'),
-	url(r'^delete/', views.DNS_Del, name='dns_delete'),
-    url(r'^profile/', views.DNS_Profile, name='dns_profile'),
-	url(r'^update/', views.DNS_Update, name='dns_update'),
+	url('^setting/', views.DNSList, name='setting'),
+    url(r'^dns_add/', views.AddDNS, name='dns_add'),
+	url(r'^dns_delete/', views.DNSDel, name='dns_delete'),
+    url(r'^profile/', views.DNSProfile, name='profile'),
+	url(r'^dns_update/', views.DNSUpdate, name='dns_update'),
 ]
