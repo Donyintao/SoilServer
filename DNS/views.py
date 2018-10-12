@@ -7,10 +7,12 @@ from API.forms import *
 import django.utils.timezone as timezone
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
 '''Zone列表'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def ZoneList(request):
 	if request.method == 'GET':
 		result = Zone.objects.all()
@@ -18,6 +20,7 @@ def ZoneList(request):
 
 '''Zone添加'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def AddZone(request):
 	if request.method == 'POST':
 		zone_form = ZoneValidForm(request.POST)
@@ -37,6 +40,7 @@ def AddZone(request):
 
 '''DNS列表'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def DNSList(request):
 	if request.method == 'GET':
 		name = request.GET['name']
@@ -51,6 +55,7 @@ def DNSList(request):
 
 '''域名添加操作'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def AddDNS(request):
 	if request.method == 'POST':
 		dns_form = DNSValidForm(request.POST)
@@ -77,6 +82,7 @@ def AddDNS(request):
 
 '''域名删除操作'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def DNSDel(request):
 	if request.method == 'POST':
 		dns_delform = DNSValidForm(request.POST)
@@ -92,6 +98,8 @@ def DNSDel(request):
 		dns_delform = DNSValidForm()
 
 '''域名编辑操作'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def DNSProfile(request):
 	if request.method == 'GET':
 		id = request.GET['id']
@@ -101,6 +109,7 @@ def DNSProfile(request):
 	return render(request,'dns/dns_profile.html', {'DNSList': DNSList, 'DNS_TYPE': DNS_TYPE})
 
 '''域名更新操作'''
+@csrf_exempt
 @csrf_exempt
 def DNSUpdate(request):
 	if request.method == 'POST':
