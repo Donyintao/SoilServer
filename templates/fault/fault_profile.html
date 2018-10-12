@@ -35,13 +35,15 @@
             </div>
             <div class="x_content">
               <br />
-              <form id="add_faultForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'fault_add' %}" method="post" role="search">
+              <form id="up_faultForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'fault_profile' %}" method="post" role="search">
                 {% csrf_token %}
+                {% for fault in Fault %}
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">故障概述 <span class="required"> </span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12" placeholder="请输入故障概述">
+                    <input type="hidden" id="get_id" name="get_id" class="form-control col-md-7 col-xs-12"  value="{{ fault.id }}">
+                    <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12"  value="{{ fault.name }}">
                   </div>
                 </div>
                 <div class="form-group">
@@ -49,8 +51,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <!-- 故障级别 -->
+                    <input type="hidden" id="get_level" name="get_level" class="form-control col-md-7 col-xs-12"  value="{{ fault.get_level_display }}">
                     <select class="form-control" id="level" name="level">
-                      <option value="tag">----------</option>
                     </select>
                   </div>
                 </div>
@@ -59,8 +61,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <!-- 故障类型 -->
+                    <input type="hidden" id="get_type" name="get_type" class="form-control col-md-7 col-xs-12"  value="{{ fault.type }}">
                     <select class="form-control" id="types" name="types">
-                      <option value="tag">----------</option>
                     </select>
                   </div>
                 </div>
@@ -69,8 +71,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <!-- 影响项目 -->
+                    <input type="hidden" id="get_project" name="get_project" class="form-control col-md-7 col-xs-12"  value="{{ fault.get_project_display }}">
                     <select class="form-control" id="project" name="project">
-                      <option value="tag">----------</option>
                     </select>
                   </div>
                 </div>
@@ -79,8 +81,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <!-- 故障状态 -->
+                    <input type="hidden" id="get_status" name="get_status" class="form-control col-md-7 col-xs-12"  value="{{ fault.get_status_display }}">
                     <select class="form-control" id="status" name="status">
-                      <option value="tag">----------</option>
                     </select>
                   </div>
                 </div>
@@ -89,8 +91,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <!-- 主导改进 -->
+                    <input type="hidden" id="get_improve" name="get_improve" class="form-control col-md-7 col-xs-12"  value="{{ fault.get_improve_display }}">
                     <select class="form-control" id="improve" name="improve">
-                      <option value="tag">----------</option>
                     </select>
                   </div>
                 </div>
@@ -98,7 +100,9 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="duration_time">持续时间 <span class="required"> </span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" id="duration_time" name="duration_time" class="form-control col-md-7 col-xs-12" placeholder="请输入持续时间">
+                    <input type="hidden" id="starttime" name="starttime" class="form-control col-md-7 col-xs-12" value="{{ fault.start_time }}">
+                    <input type="hidden" id="endtime" name="duration_time" class="form-control col-md-7 col-xs-12" value="{{ fault.end_time }}">
+                    <input type="text" id="duration_time" name="duration_time" class="form-control col-md-7 col-xs-12">
                   </div>
                 </div>
                 <div class="form-group">
@@ -108,7 +112,7 @@
                     <textarea id="effect" class="form-control" name="effect" data-parsley-trigger="keyup" data-parsley-minlength="20"
                               data-parsley-maxlength="40"
                               data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                              data-parsley-validation-threshold="20"></textarea>
+                              data-parsley-validation-threshold="20">{{ fault.effect }}</textarea>
                   </div>
                 </div>
                 <div class="form-group">
@@ -118,7 +122,7 @@
                     <textarea id="content" class="form-control" name="content" data-parsley-trigger="keyup" data-parsley-minlength="20"
                               data-parsley-maxlength="200"
                               data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                              data-parsley-validation-threshold="20"></textarea>
+                              data-parsley-validation-threshold="20">{{ fault.content }}</textarea>
                   </div>
                 </div>
                 <div class="form-group">
@@ -128,7 +132,7 @@
                     <textarea id="reasons" class="form-control" name="reasons" data-parsley-trigger="keyup" data-parsley-minlength="20"
                               data-parsley-maxlength="200"
                               data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                              data-parsley-validation-threshold="20"></textarea>
+                              data-parsley-validation-threshold="20">{{ fault.reasons }}</textarea>
                   </div>
                 </div>
                 <div class="form-group">
@@ -138,7 +142,7 @@
                     <textarea id="solution" class="form-control" name="solution" data-parsley-trigger="keyup" data-parsley-minlength="20"
                               data-parsley-maxlength="200"
                               data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                              data-parsley-validation-threshold="20"></textarea>
+                              data-parsley-validation-threshold="20">{{ fault.solution }}</textarea>
                   </div>
                 </div>
                 <div class="form-group">
@@ -148,21 +152,22 @@
                     <textarea id="lesson" class="form-control" name="lesson" data-parsley-trigger="keyup" data-parsley-minlength="20"
                               data-parsley-maxlength="100"
                               data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                              data-parsley-validation-threshold="10"></textarea>
+                              data-parsley-validation-threshold="10">{{ fault.lesson }}</textarea>
                   </div>
                 </div>
                 <div class="ln_solid"></div>
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <span class="add_faultValid">
+                    <span class="up_faultValid" CurlId="{{ fault.id }}">
                       <button type="button" class="btn btn-success">保存</button>
                     </span>
-                    <span class="add_faultReset">
+                    <span class="up_faultReset">
                       <button class="btn btn-primary" type="reset">重置</button>
                     </span>
                   </div>
                 </div>
               </form>
+              {% endfor %}
             </div>
           </div>
         </div>

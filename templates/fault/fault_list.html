@@ -66,7 +66,7 @@
                     <td>{{ fault.create_datetime }}</td>
                     <td>
                       <a class="btn btn-success btn-xs" href="{% url 'fault_details' %}?id={{ fault.id }}">详情</a>
-                      <a class="btn btn-info btn-xs" href="{% url 'hosts_profile' %}?id={{ fault.id }}">编辑</a>
+                      <a class="btn btn-info btn-xs" href="{% url 'fault_profile' %}?id={{ fault.id }}">编辑</a>
                       <span class="del_fault" CurlId="{{ fault.id }}">
                         <button type="button" class="btn btn-danger btn-xs">删除</button>
                       </span>

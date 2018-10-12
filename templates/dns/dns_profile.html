@@ -30,8 +30,8 @@
             </div>
             <div class="x_content">
               <br />
-              {% for dns in DNS %}
-              <form id="up_dnsForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'dns_profile' %}?id={{ dns.id }}" method="post">
+              {% for dns in DNSList %}
+              <form id="up_dnsForm" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'profile' %}?name={{ dns.zone__name }}?id={{ dns.id }}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="host">主机记录 <span class="required">*</span>
@@ -62,7 +62,7 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <span class="up_dnsValid" CurlId="{{ dns.id }}">
+                    <span class="up_dnsValid" CurlId="{{ dns.id }}" ZoneId="{{ dns.zone }}" Zone="{{ dns.zone__name }}">
                       <button type="button" class="btn btn-success">保存</button>
                     </span>
                     <span class="up_dnsReset" CurlId="{{ dns.id }}">

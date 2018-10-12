@@ -20,7 +20,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>域名列表</h2>
+              <h2>解析列表</h2>
               <ul class="nav navbar-right panel_toolbox">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -52,17 +52,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for dns in DNS %}
+                  {% for dns in DNSList %}
                   <tr>
-                    <td>{{ dns.host }}.{{ dns.zone }}</td>
-                    <td>{{ dns.get_type_display }}</td>
+                    <td>{{ dns.host }}.{{ dns.zone__name }}</td>
+                    <td>{{ dns.type }}</td>
                     <td>{{ dns.data }}</td>
                     <td>{{ dns.ttl }}</td>
                     <td>{{ dns.create_datetime }}</td>
                     <td>{{ dns.update_datetime }}</td>
                     <td>
-                      <a class="btn btn-info btn-xs" href="{% url 'dns_profile' %}?id={{ dns.id }}">编辑</a>
-                      <span class="del_dns" CurlId="{{ dns.id }}">
+                      <a class="btn btn-info btn-xs" href="{% url 'profile' %}/{{ dns.zone__name }}/?id={{ dns.id }}">编辑</a>
+                      <span class="del_dns" CurlId="{{ dns.id }}" ZoneId="{{ dns.zone }}">
                         <button type="button" class="btn btn-danger btn-xs">删除</button>
                       </span>
                     </td>
@@ -81,7 +81,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>域名解析</h2>
+              <h2>解析配置</h2>
               <ul class="nav navbar-right panel_toolbox">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -101,7 +101,7 @@
             </div>
             <div class="x_content">
               <br />
-              <form id="add_dnsFrom" data-parsley-validate class="form-horizontal form-label-left" action="" method="post">
+              <form id="add_dnsFrom" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'dns_add' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="host">主机记录 <span class="required">*</span>
@@ -132,7 +132,9 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <span class="add_dns add_dnsValid">
+                    {% for zone in ZoneObj %}
+                    <span class="add_dns add_dnsValid" CurlId="{{ zone.id }}">
+                    {% endfor %}
                       <button type="button" class="btn btn-success">保存</button>
                     </span>
                     <span class="add_dnsReset">

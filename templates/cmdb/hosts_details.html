@@ -97,7 +97,7 @@
                       </tr>
                       <tr>
                         <td class="details-right"><b>管理地址: </b></td>
-                        <td class="details-left">192.168.20.101</td>
+                        <td class="details-left"></td>
                       </tr>
                       <tr>
                         <td class="details-right"><b>发行版本: </b></td>
@@ -146,9 +146,11 @@
                             <td class="details-right"><b>CPU型号: </b></td>
                             <td class="details-left">{{ cpu.cpu_model }}</td>
                           </tr>
+                          <tr>
                             <td class="details-right"><b>逻辑核数: </b></td>
                             <td class="details-left">{{ cpu.cpu_core_count }}</td>
                           </tr>
+                          <tr>
                             <td class="details-right"><b>更新时间: </b></td>
                             <td class="details-left">{{ cpu.update_datetime }}</td>
                           </tr>
@@ -216,8 +218,8 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Total</td>
-                          <td>2048</td>
+                          <td></td>
+                          <td></td>
                           <td></td>
                           <td></td>
                         </tr>
@@ -258,14 +260,14 @@
                           <td></td>
                           <td></td>
                         </tr>
-                        {% for ram in RAM %}
+                        {% for disk in RAM %}
                         <tr>
-                          <td>{{ network.name }}</td>
-                          <td>{{ network.macaddress }}</td>
-                          <td>{{ network.ipaddress }}</td>
-                          <td>{{ network.netmask }}</td>
-                          <td>{{ network.create_date }}</td>
-                          <td>{{ network.update_date }}</td>
+                          <td>{{ disk.name }}</td>
+                          <td>{{ disk.macaddress }}</td>
+                          <td>{{ disk.ipaddress }}</td>
+                          <td>{{ disk.netmask }}</td>
+                          <td>{{ disk.create_date }}</td>
+                          <td>{{ disk.update_date }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
