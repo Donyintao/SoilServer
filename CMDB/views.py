@@ -5,35 +5,44 @@ import json
 from models import *
 from API.forms import *
 import django.utils.timezone as timezone
-from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 '''机房列表'''
+@login_required(login_url="/users/login/")
 def IDC_List(request):
-	IDC_List = HostIDC.objects.all().values('id', 'name', 'address')
-	NewList = []
-	for IDC in IDC_List:
-		amount = HostCabinet.objects.filter(cabinet_idc__name=IDC['name']).count()
-		IDC.update({'count': amount})
-		NewList.append(IDC)
-
-	return render(request, 'cmdb/idc_list.html', {'IDC': NewList})
+    # 查询列表
+    List = HostIDC.objects.all().values('id', 'name', 'address')
+    # 返回结果
+    result = []
+    for idc in List:
+        # 统计每个机房的机柜数量
+        Amount = HostCabinet.objects.filter(idc__name=idc['name']).count()
+        print Amount
+        idc.update({'count': Amount})
+        result.append(idc)
+    return render(request, 'cmdb/idc_list.html', {'result': result})
 
 '''机房编辑'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def IDC_Profile(request):
 	if request.method == 'GET':
 		id = request.GET['id']
-		IDC_List = HostIDC.objects.filter(id=id)
-	return render(request, 'cmdb/idc_profile.html', {'IDC': IDC_List})
+        result = HostIDC.objects.filter(id=id)
+	return render(request, 'cmdb/idc_profile.html', {'result': result})
 
 '''机房添加'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def IDC_Add(request):
 	if request.method == 'POST':
 		idc_form = IDCValidForm(request.POST)
 		if idc_form.is_valid():
 			name = idc_form.cleaned_data['name']
 			address = idc_form.cleaned_data['address']
+            # 添加机房
 			AddObj = HostIDC(name=name,address=address)
 			AddObj.save()
 			# 数据添加状态: true表示正常.
@@ -46,11 +55,13 @@ def IDC_Add(request):
 
 '''机房删除'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def IDC_Del(request):
     if request.method == 'POST':
         idc_delform = IDCValidForm(request.POST)
         if idc_delform.is_valid():
             id = idc_delform.cleaned_data['id']
+            # 删除机房
             DelObj = HostIDC.objects.filter(id=id).delete()
             # 数据删除状态: true表示正常.
             return HttpResponse(json.dumps({'status': 'true'}))
@@ -62,12 +73,14 @@ def IDC_Del(request):
 
 '''机房更新操作'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def IDC_Update(request):
     if request.method == 'POST':
         idc_upform = IDCValidForm(request.POST)
         if idc_upform.is_valid():
             id = idc_upform.cleaned_data['id']
             address = idc_upform.cleaned_data['address']
+            # 更新机房
             UpdateObj = HostIDC.objects.filter(id=id).update(address=address)
             # 数据更新状态: true表示正常.
             return HttpResponse(json.dumps({'status': 'true'}))
@@ -78,22 +91,27 @@ def IDC_Update(request):
         idc_upform = IDCValidForm()
 
 '''机柜查询'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def Cabinet(request):
     # 机房信息
     IDC_List = HostIDC.objects.all().values('id','name', 'address')
     # 机柜信息
-    CabinetList = HostCabinet.objects.all().values('id', 'name', 'status', 'cabinet_idc__name')
+    CabinetList = HostCabinet.objects.all().values('id', 'name', 'status', 'idc__name')
     return render(request, 'cmdb/cabinet_list.html', {'IDC': IDC_List, 'Cabinet': CabinetList})
 
 '''机柜编辑'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def CabinetProfile(request):
 	if request.method == 'GET':
 		id = request.GET['id']
-		CabinetList = HostCabinet.objects.filter(id=id).values('id', 'name', 'cabinet_idc__name')
+		CabinetList = HostCabinet.objects.filter(id=id).values('id', 'name', 'idc__name')
 	return render(request, 'cmdb/cabinet_profile.html', {'Cabinet': CabinetList})
 
 '''机柜添加'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def CabinetAdd(request):
 	if request.method == 'POST':
 		cabinet_form = CabinetValidForm(request.POST)
@@ -101,9 +119,9 @@ def CabinetAdd(request):
 			name = cabinet_form.cleaned_data['name']
 			cabinet = cabinet_form.cleaned_data['cabinet']
 			# 获取机房名称
-			name = HostIDC.objects.get(name=name)
+			idc = HostIDC.objects.get(name=name)
 			# 添加机柜信息
-			AddObj = HostCabinet(name=cabinet, cabinet_idc=name)
+			AddObj = HostCabinet(name=cabinet, idc=idc)
 			AddObj.save()
 			# 数据添加状态: true表示正常.
 			return HttpResponse(json.dumps({'status': 'true'}))
@@ -115,6 +133,7 @@ def CabinetAdd(request):
 
 '''机柜更新'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def CabinetUpdate(request):
 	if request.method == 'POST':
 		cabinet_upform = CabinetValidForm(request.POST)
@@ -133,6 +152,7 @@ def CabinetUpdate(request):
 
 '''机柜删除'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def CabinetDel(request):
 	if request.method == 'POST':
 		cabinet_delform = CabinetDelValidForm(request.POST)
@@ -148,6 +168,8 @@ def CabinetDel(request):
 		cabinet_delform = CabinetDelValidForm()
 
 '''主机组查询'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsGroup(request):
 	# 查看主机组
 	GroupList = HostGroup.objects.all().values('id', 'name')
@@ -161,6 +183,7 @@ def HostsGroup(request):
 
 '''主机组添加'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def GroupAdd(request):
     if request.method == 'POST':
         group_form = GroupValidForm(request.POST)
@@ -178,6 +201,8 @@ def GroupAdd(request):
         group_form = GroupValidForm()
 
 '''主机组编辑'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def GroupProfile(request):
     if request.method == 'GET':
         id = request.GET['id']
@@ -186,6 +211,7 @@ def GroupProfile(request):
 
 '''主机组更新操作'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def GroupUpdate(request):
 	if request.method == 'POST':
 		group_upform = GroupValidForm(request.POST)
@@ -203,6 +229,7 @@ def GroupUpdate(request):
 
 '''主机组删除操作'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def GroupDel(request):
 	if request.method == 'POST':
 		group_delform = GroupDelValidForm(request.POST)
@@ -218,6 +245,8 @@ def GroupDel(request):
 		group_delform = GroupDelValidForm()
 		
 '''主机查询'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsList(request):
 	HostList = Server.objects.all().values('id',
 										   'sn',
@@ -240,6 +269,8 @@ def HostsList(request):
 
 
 '''主机详情信息'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsDetails(request):
 	if request.method == 'GET':
 		id = request.GET['id']
@@ -273,6 +304,7 @@ def HostsDetails(request):
 
 '''主机添加'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def AddHosts(request):
 	if request.method == 'GET':
 		GroupList = HostGroup.objects.all().values('name')
@@ -292,21 +324,24 @@ def AddHosts(request):
 			group = hosts_form.cleaned_data['group']
 			idc = hosts_form.cleaned_data['idc']
 			cabinet = hosts_form.cleaned_data['cabinet']
+			manufactory = hosts_form.cleaned_data['manufactory']
+			print manufactory
 
 			# 获取主机组名称
 			host_group = HostGroup.objects.filter(id=group).values('name')[0]['name']
 			group_name = HostGroup.objects.get(name=host_group)
 
 			# 获取机柜名称
-			host_cabinet = HostCabinet.objects.filter(cabinet_idc=idc, id=cabinet).values('name')[0]['name']
+			host_cabinet = HostCabinet.objects.filter(idc=idc, id=cabinet).values('name')[0]['name']
 			cabinet_name = HostCabinet.objects.get(name=host_cabinet)
 
 			# 获取机房名称
 			host_idc = HostIDC.objects.filter(id=idc).values('name')[0]['name']
 			idc_name = HostIDC.objects.get(name=host_idc)
 
-			# 获取制造厂商
-			manufactory = Manufactory.objects.get(manufactory='Dell Inc.')
+			# 获取服务厂商
+			host_manufactory = Manufactory.objects.filter(id=manufactory).values('manufactory')[0]['manufactory']
+			manufactory_name = Manufactory.objects.get(manufactory=host_manufactory)
 
 			CabinetObj = HostCabinet.objects.filter(name=cabinet_name).update(status=1)
 
@@ -322,7 +357,7 @@ def AddHosts(request):
 							   kernel_release=kernel_release,
 							   idc=idc_name,
 							   cabinet=cabinet_name,
-							   manufactory=manufactory)
+							   manufactory=manufactory_name)
 			ServerObj.save()
 
 			# 更新主机组信息
@@ -338,6 +373,8 @@ def AddHosts(request):
 		hosts_form = HostsValidForm()
 
 '''主机编辑'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsProfile(request):
 	if request.method == 'GET':
 		id = request.GET['id']
@@ -363,6 +400,7 @@ def HostsProfile(request):
 
 '''主机更新'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsUpdate(request):
 	if request.method == 'POST':
 		hosts_upform = HostsValidForm(request.POST)
@@ -381,7 +419,7 @@ def HostsUpdate(request):
 			cabinet = hosts_upform.cleaned_data['cabinet']
 
 			# 获取新机柜名称
-			host_cabinet = HostCabinet.objects.filter(cabinet_idc=idc, id=cabinet).values('name')[0]['name']
+			host_cabinet = HostCabinet.objects.filter(idc=idc, id=cabinet).values('name')[0]['name']
 			cabinet_name = HostCabinet.objects.get(name=host_cabinet)
 			# 获取新主机组名称
 			host_group = HostGroup.objects.filter(id=group).values('name')[0]['name']
@@ -407,7 +445,7 @@ def HostsUpdate(request):
 			# 获取制造厂商
 			manufactory = Manufactory.objects.get(manufactory='Dell Inc.')
 
-            # 更新机柜信息
+			# 更新机柜信息
 			NewCabinet = HostCabinet.objects.filter(name=cabinet_name).update(status=1)
 
 			# 更新主机信息
@@ -442,6 +480,7 @@ def HostsUpdate(request):
 
 '''主机删除'''
 @csrf_exempt
+@login_required(login_url="/users/login/")
 def HostsDel(request):
 	if request.method == 'POST':
 		hosts_delform = HostsValidForm(request.POST)
@@ -459,21 +498,55 @@ def HostsDel(request):
 			return HttpResponse(json.dumps({'status': 'false'}))
 	else:
 		hosts_delform = HostsValidForm()
+  
+'''服务厂商列表'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
+def FirmList(request):
+    result = Manufactory.objects.all()
+    return render(request, 'cmdb/firm_list.html', {'result': result})
+
+'''服务厂商添加'''
+@csrf_exempt
+@login_required(login_url="/users/login/")
+def AddFirm(request):
+    if request.method == 'POST':
+        firm_form = ManufactoryValidForm(request.POST)
+        if firm_form.is_valid():
+            manufactory = firm_form.cleaned_data['manufactory']
+            print manufactory
+            support_num = firm_form.cleaned_data['support_num']
+            print support_num
+            # 添加厂商
+            AddObj = Manufactory(manufactory=manufactory, support_num=support_num)
+            AddObj.save()
+            # 数据添加状态: true表示正常.
+            return HttpResponse(json.dumps({'status': 'true'}))
+        else:
+            # 数据添加状态: false表示异常.
+            return HttpResponse(json.dumps({'status': 'false'}))
+    else:
+        firm_form = ManufactoryValidForm()
 
 def SeletedIDC(request):
 	if request.method == 'GET':
 		result = HostIDC.objects.all().values('id','name')
-    	return HttpResponse(json.dumps(list(result)))
+        return HttpResponse(json.dumps(list(result)))
 
 def SeletedCabinet(request):
 	if request.method == 'GET':
 		id = request.GET.get("id")
-		result = HostCabinet.objects.filter(cabinet_idc=id,status=0).values('id','name')
+		result = HostCabinet.objects.filter(idc=id,status=0).values('id','name')
 		return HttpResponse(json.dumps(list(result)))
 
 def SeletedGroup(request):
 	if request.method == 'GET':
 		result = HostGroup.objects.all().values('id','name')
+		return HttpResponse(json.dumps(list(result)))
+
+def SeletedFirm(request):
+	if request.method == 'GET':
+		result = Manufactory.objects.all().values('id','manufactory')
 		return HttpResponse(json.dumps(list(result)))
 
 def SeletedHosts(request):

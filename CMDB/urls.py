@@ -30,8 +30,12 @@ urlpatterns = [
 	url(r'^hosts_profile/', views.HostsProfile, name='hosts_profile'),
 	url(r'^hosts_update', views.HostsUpdate, name='hosts_update'),
 	url(r'^hosts_details/', views.HostsDetails, name='hosts_details'),
+	# Firm URL
+    url(r'^firm_list/', views.FirmList, name='firm_list'),
+    url(r'^firm_add/', views.AddFirm, name='firm_add'),
 	# Seleted URL
 	url(r'^idc_seleted/', views.SeletedIDC, name='idc_seleted'),
 	url(r'^cabinet_seleted/', views.SeletedCabinet, name='cabinet_seleted'),
 	url(r'^group_seleted/', views.SeletedGroup, name='group_seleted'),
+    url(r'^firm_seleted/', views.SeletedFirm, name='firm_seleted'),
 ]

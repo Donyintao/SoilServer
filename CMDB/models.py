@@ -28,7 +28,7 @@ class HostIDC(models.Model):
 class HostCabinet(models.Model):
 	name = models.CharField(u'机柜', max_length=128, blank=False, null=False, unique=True)
 	status = models.BooleanField(u'机柜状态', default=0)
-	cabinet_idc = models.ForeignKey('HostIDC', related_name='cabinet_idc_name')
+	idc = models.ForeignKey('HostIDC', verbose_name=u'机房地址')
 	
 	def __unicode__(self):
 		return self.name
