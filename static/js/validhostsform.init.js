@@ -24,7 +24,7 @@ $(function () {
   });
 });
 
-// 主机组-主机联动菜单
+// 主机组菜单
 $(function () {
   $.get("/cmdb/group_seleted", function (result) {
     var result = $.parseJSON(result);
@@ -33,6 +33,19 @@ $(function () {
       var name = result[i].name;
       $("#group option[index='0']").remove();
       $("#group").append("<option value=" + id + ">" + name + "</option>")
+    }
+  });
+});
+
+// 主机组菜单
+$(function () {
+  $.get("/cmdb/firm_seleted", function (result) {
+    var result = $.parseJSON(result);
+    for (var i = 0; i < result.length; i++) {
+      var id = result[i].id;
+      var manufactory = result[i].manufactory;
+      $("#manufactory option[index='0']").remove();
+      $("#manufactory").append("<option value=" + id + ">" + manufactory + "</option>")
     }
   });
 });
@@ -189,6 +202,23 @@ $(function () {
           }
         }
       },
+      manufactory: {
+        validators: {
+          notEmpty: {
+            message: '服务厂商不能为空.'
+          },
+          callback: {
+            message: '服务厂商不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
     }
   });
   $('.add_hostValid').click(function () {
@@ -206,6 +236,7 @@ $(function () {
       var group = $('#group').val();
       var idc = $('#idc').val();
       var cabinet = $('#cabinet').val();
+      var manufactory = $('#manufactory').val();
       $.post('/cmdb/hosts_add/', {
         sn: sn,
         server_model: server_model,
@@ -219,6 +250,7 @@ $(function () {
         group: group,
         idc: idc,
         cabinet: cabinet,
+        manufactory: manufactory,
         },
         function (result, status) {
           if (status == 'success') {

@@ -67,6 +67,48 @@ $(function () {
   });
 });
 
+// 添加故障类型信息
+$(function () {
+  $('#add_typeForm').bootstrapValidator({
+    message: 'This value is not valid',
+    fields: {
+      name: {
+        validators: {
+          notEmpty: {
+            message: '故障类型不能为空.'
+          },
+        remote: {
+            type: 'POST',
+            url: '/api/type_valid/',
+            data: { name: $('#name').val() },
+            delay :  1000,
+            message: '故障类型已存在，请重新输入.'
+          }
+        }
+      },
+    }
+  });
+  $('.add_typeValid').click(function () {
+    $('#add_typeForm').bootstrapValidator('validate');
+    if($('#add_typeForm').data("bootstrapValidator").isValid()){
+      var name = $('#name').val()
+      $.post('/fault/type_add/', {name: name}, function (result, status) {
+        if (status == 'success') {
+          var result = $.parseJSON(result);
+          if (result.status == 'true') {
+            bootbox.alert("<h4 class='text-center'>数据添加成功!</h4>", function(){ window.location.reload(); });
+          }
+        }
+      });
+    } else {
+      return;
+    }
+  });
+  $('.add_typeReset').click(function () {
+    $('#add_typeForm').data('bootstrapValidator').resetForm(true);
+  });
+});
+
 // 故障级别列表
 $(function () {
   $.get("/fault/level_seleted/", function (result) {
