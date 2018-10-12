@@ -14,7 +14,7 @@ Salt 运维管理平台
 
 ### 安装依赖
 ```
-pip install sut
+pip install suit
 pip install django==1.11.6
 ```
 ### 修改配置
@@ -42,3 +42,6 @@ python manage.py createsuperuser
 # 启动服务
 python manage.py runserver http://127.0.0.1:8000
 ```
+
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_list.png)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts-details.png)
