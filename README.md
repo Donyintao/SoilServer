@@ -43,11 +43,11 @@ python manage.py createsuperuser
 python manage.py runserver http://127.0.0.1:8000
 ```
 
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_list.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_add.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_details.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/bind_add.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/bind_list.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_list.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_add.jpg)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_details.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/hosts_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/hosts_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/hosts_details.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/bind_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/bind_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/faults_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/faults_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SoilServer/master/doc/images/faults_details.jpg)
