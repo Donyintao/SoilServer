@@ -13,8 +13,8 @@
           {% endif %}
         </a>
         <ul class="dropdown-menu dropdown-usermenu pull-right">
-          <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
-          <li><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a></li>
+          <li><a href="{% url 'password_change' %}">修改密码</a></li>
+          <li><a href="{% url 'logout' %}?next=/">注销登录</a></li>
         </ul>
       </li>
     </ul>

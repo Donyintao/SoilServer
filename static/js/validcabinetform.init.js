@@ -17,7 +17,7 @@ $(function () {
       },
       callback: function (result) {
         if (result) {
-          $.post("/cmdb/cabinet_delete/", {id: id}, function (result,status) {
+          $.post("/assets/cabinet_delete/", {id: id}, function (result,status) {
             if (status == 'success') {
               var result = $.parseJSON(result);
               if (result.status == 'true') {
@@ -62,7 +62,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/cabinet_valid/',
+            url: '/assets/cabinet_valid/',
             data: {cabinet: $('#cabinet').val()},
             delay :  1000,
             message: '机柜名称已经存在.'
@@ -76,7 +76,7 @@ $(function () {
     if ($('#add_cabinetFrom').data("bootstrapValidator").isValid()){
       var name = $('#name').val()
       var cabinet = $('#cabinet').val()
-      $.post('/cmdb/cabinet_add/', {name: name, cabinet: cabinet}, function (result, status) {
+      $.post('/assets/cabinet_add/', {name: name, cabinet: cabinet}, function (result, status) {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
@@ -105,7 +105,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/cabinet_valid/',
+            url: '/assets/cabinet_valid/',
             data: {cabinet: $('#cabinet').val()},
             delay :  1000,
             message: '机柜名称已存在，请重新输入.'
@@ -119,10 +119,10 @@ $(function () {
     if ($('#up_cabinetFrom').data("bootstrapValidator").isValid()) {
       var id = $(this).attr('CurlId')
       var cabinet = $('#cabinet').val()
-      $.post('/cmdb/cabinet_update/', {id: id, cabinet: cabinet}, function (result, status) {
+      $.post('/assets/cabinet_update/', {id: id, cabinet: cabinet}, function (result, status) {
         var result = $.parseJSON(result);
         if (result.status == 'true') {
-          bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/cabinet_list'; });
+          bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/assets/cabinet_list/'; });
         }
       });
     } else {

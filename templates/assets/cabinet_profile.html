@@ -1,0 +1,73 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>资产管理</h3>
+        </div>
+        <div class="title_right"></div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>编辑机柜</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <ul class="dropdown-menu" role="menu">
+                  </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+              {% for cabinet in result %}
+              <form id="up_cabinetFrom" data-parsley-validate class="form-horizontal form-label-left" action="{% url 'cabinet_profile' %}?id={{ cabinet.id }}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">机房名称 <span class="required">:</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12" value="{{ cabinet.idc__name }}" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cabinet">机柜地址 <span class="required">:</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="cabinet" name="cabinet" class="form-control col-md-7 col-xs-12" value="{{ cabinet.name }}">
+                  </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <span class="up_cabinetValid" CurlId="{{ cabinet.id }}">
+                      <button type="button" class="btn btn-success">保存</button>
+                    </span>
+                    <button class="btn btn-primary" type="reset">重置</button>
+                  </div>
+                </div>
+              </form>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/validcabinetform.init.js"></script>
+{% endblock javascripts %}

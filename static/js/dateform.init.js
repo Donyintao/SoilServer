@@ -167,7 +167,7 @@ $(function () {
       var reasons = $('#reasons').val();
       var solution = $('#solution').val();
       var lesson = $('#lesson').val();
-      $.post('/fault/fault_add/', {
+      $.post('/faults/fault_add/', {
         name: name,
         level: level,
         type: type,
@@ -186,7 +186,7 @@ $(function () {
           if (status == 'success') {
             var result = $.parseJSON(result);
             if (result.status == 'true') {
-              bootbox.alert("<h4 class='text-center'>数据添加成功!</h4>", function(){ self.location='/fault/fault_list/'; });
+              bootbox.alert("<h4 class='text-center'>数据添加成功!</h4>", function(){ self.location='/faults/fault_list/'; });
             }
           }
         });

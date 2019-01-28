@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="SoilServer" uuid="d9a9a562-7e36-44c9-b7e6-b83ab17400c9">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
+      <user-name>django</user-name>
+    </data-source>
+  </component>
+</project>

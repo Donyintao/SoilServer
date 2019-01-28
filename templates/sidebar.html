@@ -1,6 +1,6 @@
 <div class="left_col scroll-view">
   <div class="navbar nav_title" style="border: 0;">
-    <a href="{% url 'index' %}" class="site_title"><i class="fa fa-spinner"></i> <span>Salt 运维平台</span></a>
+    <a href="{% url 'index' %}" class="site_title"><i class="fa fa-spinner"></i> <span>Soil Server</span></a>
   </div>
 
   <div class="clearfix"></div>
@@ -37,7 +37,7 @@
             <li><a href="{% url 'firm_list' %}">厂商管理</a></li>
           </ul>
         </li>
-        <li><a><i class="fa fa-cogs"></i>项目管理<span class="fa fa-chevron-down"></span></a>
+        <li><a><i class="fa fa-cogs"></i>容器管理<span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="#">项目列表</a></li>
             <li><a href="#">项目审计</a></li>
@@ -47,14 +47,13 @@
         </li>
         <li><a><i class="fa fa-globe"></i>域名管理<span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="{% url 'zone_list' %}">域名列表</a></li>
+            <li><a href="{% url 'domain_list' %}">域名列表</a></li>
             <li><a href="#">操作记录</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-warning"></i>故障管理<span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="{% url 'fault_list' %}">故障列表</a></li>
-            <li><a href="{% url 'type_list' %}">故障类型</a></li>
+            <li><a href="{% url 'faults_list' %}">故障列表</a></li>
             <li><a href="#">操作记录</a></li>
           </ul>
         </li>

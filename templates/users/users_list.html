@@ -46,7 +46,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {% for user in Users %}
+                    {% for user in result %}
                     <tr>
                       <td>{{ user.username }}</td>
                       <td>{{ user.nickname }}</td>
@@ -66,7 +66,11 @@
                         <td>{{ user.last_login }}</td>
                       {% endif %}
                       <td>{{ user.phone }}</td>
-                      <td>{{ user.groups__name }}</td>
+                      {% if user.groups__name is None %}
+                        <td></td>
+                      {% else %}
+                        <td>{{ user.groups__name }}</td>
+                      {% endif %}
                       <td>{{ user.department }}</td>
                     </tr>
                 {% endfor %}

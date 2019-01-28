@@ -1,0 +1,152 @@
+{% extends "base_site.html" %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>故障管理</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            {% for fault in result %}
+            <div class="x_title">
+              <h2><strong>故障详情: {{ fault.name }}</strong></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <!-- start accordion -->
+              <!-- data-parent="#accordion" 属性去除，这样就可以防止在打开，某个标题时候别的标题关闭的情况 -->
+                <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <h4 class="panel-title"><strong>故障概述</strong></h4>
+                    </a>
+                    <!-- 如果您希望它默认情况下是打开的，class请添加: collapse in -->
+                    <!-- 如果您希望它默认情况下是关闭的，class请添加: collapse -->
+                    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                      <div class="panel-body">
+                        <div class="col-sm-4">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td><b>故障类型: </b></td>
+                                <td class="">{{ fault.type }}</td>
+                              </tr>
+                              <tr>
+                                <td><b>影响项目: </b></td>
+                                <td>{{ fault.project }}</td>
+                              </tr>
+                              <tr>
+                                <td><b>开始时间: </b></td>
+                                <td>{{ fault.start_time }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td><b>故障级别: </b></td>
+                                <td class="">{{ fault.get_level_display }}</td>
+                              </tr>
+                              <tr>
+                                <td><b>故障状态: </b></td>
+                                <td>{{ fault.get_status_display }}</td>
+                              </tr>
+                              <tr>
+                                <td><b>开始时间: </b></td>
+                                <td>{{ fault.end_time }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <h4 class="panel-title"><strong>故障影响</strong></h4>
+                    </a>
+                    <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+                      <div class="panel-body">
+                        <p style="padding-left: 18px">{{ fault.effect|linebreaksbr }}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingFour" data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      <h4 class="panel-title"><strong>处理流程</strong></h4>
+                    </a>
+                    <div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFour">
+                      <div class="panel-body">
+                        <p style="padding-left: 18px">{{ fault.content|linebreaksbr }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingFive" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      <h4 class="panel-title"><strong>故障原因</strong></h4>
+                    </a>
+                    <div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFive">
+                      <div class="panel-body">
+                        <p style="padding-left: 18px">{{ fault.reasons|linebreaksbr }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingSix" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                      <h4 class="panel-title"><strong>解决方案</strong></h4>
+                    </a>
+                    <div id="collapseSix" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSix">
+                      <div class="panel-body">
+                        <p style="padding-left: 18px">{{ fault.solution|linebreaksbr }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingSeven" data-toggle="collapse" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                      <h4 class="panel-title"><strong>经验总结</strong></h4>
+                    </a>
+                    <div id="collapseSeven" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSeven">
+                      <div class="panel-body">
+                        <p style="padding-left: 20px">{{ fault.lesson|linebreaksbr }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                <!-- end of accordion -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/validfaultsform.init.js"></script>
+{% endblock javascripts %}

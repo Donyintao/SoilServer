@@ -1,0 +1,288 @@
+{% extends "base_site.html" %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link href="/static/css/hostsdetails.css" rel="stylesheet">
+  <link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>资产管理</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#tab_content1" role="tab" id="host-tab"data-toggle="tab" aria-expanded="true">详情信息</a>
+              </li>
+              <li role="presentation" class=""><a href="#tab_content2" role="tab" id="cpu-tab" data-toggle="tab" aria-expanded="false">CPU信息</a>
+              </li>
+              <li role="presentation" class=""><a href="#tab_content3" role="tab" id="nic-tab" data-toggle="tab" aria-expanded="false">网卡信息</a>
+              </li>
+              <li role="presentation" class=""><a href="#tab_content4" role="tab" id="mem-tab" data-toggle="tab" aria-expanded="false">内存信息</a>
+              </li>
+              <li role="presentation" class=""><a href="#tab_content5" role="tab" id="disk-tab" data-toggle="tab" aria-expanded="false">硬盘信息</a>
+              </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+              <!-- start server projects -->
+              <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="host-tab">
+                <div class="row">
+                  <div class="col-sm-5">
+                  {% for host in result %}
+                  <table class="table table-details">
+                    <tbody>
+                      <tr>
+                        <td class="details-right"><b>主机名称: </b></td>
+                        <td class="details-left">{{ host.hostname }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>SN号: </b></td>
+                        <td class="details-left">{{ host.sn }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>厂商: </b></td>
+                        <td class="details-left">{{ host.manufactory__manufactory }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>型号: </b></td>
+                        <td class="details-left">{{ host.server_model }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>所属项目: </b></td>
+                        <td class="details-left">{{ host.group__name }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>所属机房: </b></td>
+                        <td class="details-left">{{ host.idc__name }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>所属机柜: </b></td>
+                        <td class="details-left">{{ host.cabinet__name }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>购买时间: </b></td>
+                        {% if not host.trade_datetime is None %}
+                          <td class="details-left">{{ host.trade_datetime }}</td>
+                        {% endif %}
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>创建时间: </b></td>
+                        {% if not host.create_datetime is None %}
+                          <td class="details-left">{{ host.create_datetime }}</td>
+                        {% endif %}
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>开发人员: </b></td>
+                        <td class="details-left">{{ host.manager__nickname }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+
+                  <div class="col-sm-3">
+                  <table class="table table-details">
+                    <tbody>
+                      <tr>
+                        <td class="details-right"><b>公网地址: </b></td>
+                        {% if not host.trade_datetime is None %}
+                          <td class="details-left">{{ host.ip_address }}</td>
+                        {% endif %}
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>内网地址: </b></td>
+                        <td class="details-left">{{ host.nip_address }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>管理地址: </b></td>
+                        <td class="details-left"></td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>发行版本: </b></td>
+                        <td class="details-left">Linux</td>
+                      </tr>
+                      <tr>
+                      <tr>
+                        <td class="details-right"><b>系统类型: </b></td>
+                        <td class="details-left">{{ host.system_type }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>系统版本: </b></td>
+                        <td class="details-left">{{ host.system_release }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>内核版本: </b></td>
+                        <td class="details-left">{{ host.kernel_release }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>过保时间: </b></td>
+                        {% if not host.trade_datetime is None %}
+                          <td class="details-left">{{ host.expire_datetime }}</td>
+                        {% endif %}
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>更新时间: </b></td>
+                        <td class="details-left">{{ host.update_datetime }}</td>
+                      </tr>
+                      <tr>
+                        <td class="details-right"><b>运维人员: </b></td>
+                        <td class="details-left">{{ host.admin__nickname }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  {% endfor %}
+                  </div>
+                  </div>
+                </div>
+                <!-- end server projects -->
+                <!-- start cpu projects -->
+                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="cpu-tab">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      {% for cpu in result %}
+                      <table class="table table-details">
+                        <tbody>
+                          <tr>
+                            {% if not cpu.cpu__cpu_model is None %}
+                              <td class="details-right"><b>CPU型号: </b></td>
+                              <td class="details-left">{{ cpu.cpu__cpu_model }}</td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            {% if not cpu.cpu__cpu_core_count is None %}
+                              <td class="details-right"><b>逻辑核数: </b></td>
+                              <td class="details-left">{{ cpu.cpu__cpu_core_count }}</td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            {% if not cpu.cpu__update_datetime is None %}
+                              <td class="details-right"><b>更新时间: </b></td>
+                              <td class="details-left">{{ cpu.cpu__update_datetime }}</td>
+                            {% endif %}
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <table class="table table-details">
+                        <tbody>
+                          <tr>
+                            {% if not cpu.cpu__cpu_count is None %}
+                              <td class="details-right"><b>物理核数: </b></td>
+                              <td class="details-left">{{ cpu.cpu__cpu_count }}</td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            {% if not cpu.cpu__create_datetime is None %}
+                              <td class="details-right"><b>创建时间: </b></td>
+                              <td class="details-left">{{ cpu.cpu__create_datetime }}</td>
+                            {% endif %}
+                          </tr>
+                        </tbody>
+                      </table>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <!-- end cpu projects -->
+                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="nic-tab">
+                  <div class="row">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>网卡名称</th>
+                          <th>MAC地址</th>
+                          <th>IP地址</th>
+                          <th>子网掩码</th>
+                          <th>创建时间</th>
+                          <th>更新时间</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for nic in result %}
+                        <tr>
+                          <td>{{ nic.nic__name }}</td>
+                          <td>{{ nic.nic__macaddress }}</td>
+                          <td>{{ nic.nic__ipaddress }}</td>
+                          <td>{{ nic.nic__netmask }}</td>
+                          <td>{{ nic.nic__create_datetime }}</td>
+                          <td>{{ nic.nic__update_datetime }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="mem-tab">
+                  <div class="row">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>内存插槽</th>
+                          <th>内存容量(GB)</th>
+                          <th>创建时间</th>
+                          <th>更新时间</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for ram in RAM %}
+                        <tr>
+                          <td>{{ network.name }}</td>
+                          <td>{{ network.macaddress }}</td>
+                          <td>{{ network.ipaddress }}</td>
+                          <td>{{ network.netmask }}</td>
+                          <td>{{ network.create_datetime }}</td>
+                          <td>{{ network.update_datetime }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="disk-tab">
+                  <div class="row">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>硬盘插槽</th>
+                          <th>硬盘容量(GB)</th>
+                          <th>硬盘型号</th>
+                          <th>硬盘接口</th>
+                          <th>创建时间</th>
+                          <th>更新时间</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for disk in RAM %}
+                        <tr>
+                          <td>{{ disk.name }}</td>
+                          <td>{{ disk.macaddress }}</td>
+                          <td>{{ disk.ipaddress }}</td>
+                          <td>{{ disk.netmask }}</td>
+                          <td>{{ disk.create_datetime }}</td>
+                          <td>{{ disk.update_datetime }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

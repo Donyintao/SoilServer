@@ -17,7 +17,7 @@ $(function () {
       },
       callback: function (result) {
         if (result) {
-          $.post("/cmdb/idc_delete/", {id: id}, function (result,status) {
+          $.post("/assets/idc_delete/", {id: id}, function (result,status) {
             if (status == 'success') {
               var result = $.parseJSON(result);
               if (result.status == 'true') {
@@ -45,7 +45,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/idc_valid/',
+            url: '/assets/idc_valid/',
             data: {name: $('#name').val(), address: $('#address').val()},
             delay :  1000,
             message: '机房名称已经存在.'
@@ -66,7 +66,7 @@ $(function () {
     if($('#add_idcFrom').data("bootstrapValidator").isValid()){
       var name = $('#name').val()
       var address = $('#address').val()
-      $.post('/cmdb/idc_add/', {name: name, address: address}, function (result, status) {
+      $.post('/assets/idc_add/', {name: name, address: address}, function (result, status) {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
@@ -102,11 +102,11 @@ $(function () {
     if($('#up_idcForm').data("bootstrapValidator").isValid()){
       var id = $(this).attr('CurlId');
       var address = $('#address').val();
-      $.post('/cmdb/idc_update/', {id: id, address: address}, function (result, status) {
+      $.post('/assets/idc_update/', {id: id, address: address}, function (result, status) {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
-            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/idc_list'; });
+            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/assets/idc_list'; });
           }
         }
       });

@@ -17,7 +17,7 @@ $(function () {
       },
       callback: function (result) {
         if (result) {
-          $.post("/cmdb/group_delete/", {id: id}, function (result,status) {
+          $.post("/assets/group_delete/", {id: id}, function (result,status) {
             if (status == 'success') {
               var result = $.parseJSON(result);
               if (result.status == 'true') {
@@ -45,7 +45,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/group_valid/',
+            url: '/assets/group_valid/',
             data: {name: $('#name').val() },
             delay :  1000,
             message: '主机组名称已存在，请重新输入.'
@@ -58,7 +58,7 @@ $(function () {
     $('#add_groupForm').bootstrapValidator('validate');
     if ($('#add_groupForm').data("bootstrapValidator").isValid()){
       var name = $('#name').val()
-      $.post('/cmdb/group_add/', {name: name}, function (result, status) {
+      $.post('/assets/group_add/', {name: name}, function (result, status) {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
@@ -86,7 +86,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/group_valid/',
+            url: '/assets/group_valid/',
             data: {name: $('#name').val() },
             delay :  1000,
             message: '主机组名称已存在，请重新输入.'
@@ -98,13 +98,13 @@ $(function () {
   $('.up_groupValid').click(function () {
     $('#up_groupForm').bootstrapValidator('validate');
     if ($('#up_groupForm').data("bootstrapValidator").isValid()){
-      var id = $(this).attr('CurlId')
-      var name = $('#name').val()
-      $.post('/cmdb/group_update/', {id: id, name: name}, function (result, status) {
+      var id = $(this).attr('CurlId');
+      var name = $('#name').val();
+      $.post('/assets/group_update/', {id: id, name: name}, function (result, status) {
         if (status == 'success') {
           var result = $.parseJSON(result);
           if (result.status == 'true') {
-            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/group_list/'; });
+            bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/assets/group_list/'; });
           }
         }
       });

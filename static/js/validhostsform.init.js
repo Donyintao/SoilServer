@@ -1,24 +1,35 @@
 // 机房-机柜联动菜单
 $(function () {
   // 初始化值
-  $.get("/cmdb/idc_seleted/", function (result) {
+  $.get("/assets/idc_seleted/", function (result) {
     var result = $.parseJSON(result);
+    var idc = $('#get_idc').val();
     for (var i = 0; i < result.length; i++){
       var id = result[i].id;
       var name = result[i].name;
-      $("#idc").append("<option value="+ id +">" + name + "</option>")
+      if (name == idc) {
+        $("#idc").append("<option value=" + id + " selected=selected" + ">" + name + "</option>");
+      } else {
+        $("#idc").append("<option value="+ id +">" + name + "</option>")
+      }
     }
   });
-  $("#idc").change(function () {
-    var idc = $(this).val()
+  // 机柜菜单
+  $("#idc").click(function () {
+    var idc = $(this).val();
+    var cabinet = $('#get_cabinet').val();
     $("#cabinet option:gt(0)").remove();
-    $.get("/cmdb/cabinet_seleted/", {id: idc}, function (result) {
+    $.get("/assets/cabinet_seleted/", {id: idc}, function (result) {
       var result = $.parseJSON(result);
       for (var i = 0; i < result.length; i++){
         var id = result[i].id;
         var name = result[i].name;
         $("#cabinet option[index='0']").remove();
-        $("#cabinet").append("<option value="+ id +">" + name + "</option>")
+        if (name == cabinet) {
+          $("#cabinet").append("<option value=" + id + " selected=selected" + ">" + name + "</option>");
+        } else {
+          $("#cabinet").append("<option value="+ id +">" + name + "</option>")
+        }
       }
     });
   });
@@ -26,26 +37,72 @@ $(function () {
 
 // 主机组菜单
 $(function () {
-  $.get("/cmdb/group_seleted", function (result) {
+  $.get("/assets/group_seleted", function (result) {
     var result = $.parseJSON(result);
+    var group = $('#get_group').val();
     for (var i = 0; i < result.length; i++) {
       var id = result[i].id;
       var name = result[i].name;
       $("#group option[index='0']").remove();
-      $("#group").append("<option value=" + id + ">" + name + "</option>")
+      if (name == group) {
+        $("#group").append("<option value=" + id + " selected=selected" + ">" + name + "</option>");
+      } else {
+        $("#group").append("<option value=" + id + ">" + name + "</option>")
+      }
     }
   });
 });
 
-// 主机组菜单
+// 厂商菜单
 $(function () {
-  $.get("/cmdb/firm_seleted", function (result) {
+  $.get("/assets/firm_seleted/", function (result) {
     var result = $.parseJSON(result);
+    var name = $('#str_manufactory').val();
     for (var i = 0; i < result.length; i++) {
       var id = result[i].id;
       var manufactory = result[i].manufactory;
       $("#manufactory option[index='0']").remove();
-      $("#manufactory").append("<option value=" + id + ">" + manufactory + "</option>")
+      if (name == manufactory) {
+        $("#manufactory").append("<option value=" + id + " selected=selected" + ">" + manufactory + "</option>");
+      } else {
+        $("#manufactory").append("<option value=" + id + ">" + manufactory + "</option>")
+      }
+    }
+  });
+});
+
+// 项目负责人菜单
+$(function () {
+  $.get("/assets/users_seleted/", function (result) {
+    var result = $.parseJSON(result);
+    var name = $('#str_manager').val();
+    for (var i = 0; i < result.length; i++) {
+      var id = result[i].id;
+      var nickname = result[i].nickname;
+      $("#manager option[index='0']").remove();
+      if (name == nickname) {
+        $("#manager").append("<option value=" + id + " selected=selected" + ">" + nickname + "</option>");
+      } else {
+        $("#manager").append("<option value=" + id + ">" + nickname + "</option>")
+      }
+    }
+  });
+});
+
+// 运维负责人菜单
+$(function () {
+  $.get("/assets/users_seleted/", function (result) {
+    var result = $.parseJSON(result);
+    var name = $('#str_admin').val();
+    for (var i = 0; i < result.length; i++) {
+      var id = result[i].id;
+      var nickname = result[i].nickname;
+      $("#admin option[index='0']").remove();
+      if (name == nickname) {
+        $("#admin").append("<option value=" + id + " selected=selected" + ">" + nickname + "</option>");
+      } else {
+        $("#admin").append("<option value=" + id + ">" + nickname + "</option>")
+      }
     }
   });
 });
@@ -55,27 +112,6 @@ $(function () {
   $('#add_hostForm').bootstrapValidator({
     message: 'This value is not valid',
     fields: {
-      sn: {
-        validators: {
-          notEmpty: {
-            message: 'SN序列号不能为空.'
-          },
-          remote: {
-            type: 'POST',
-            url: '/api/hosts_valid/',
-            data: {sn: $('#sn').val() },
-            delay :  1000,
-            message: 'SN序列号已存在.'
-          }
-        }
-      },
-      server_model: {
-        validators: {
-          notEmpty: {
-            message: '主机型号不能为空.'
-          }
-        }
-      },
       hostname: {
         validators: {
           notEmpty: {
@@ -83,7 +119,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
+            url: '/assets/hosts_valid/',
             data: {hostname: $('#hostname').val() },
             delay :  1000,
             message: '主机名称已存在.'
@@ -98,7 +134,7 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
+            url: '/assets/hosts_valid/',
             data: {ip: $('#ip').val() },
             delay :  1000,
             message: '公网地址已存在.'
@@ -116,39 +152,11 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
+            url: '/assets/hosts_valid/',
             data: {nip: $('#nip').val() },
             delay :  1000,
             message: '内网地址已存在.'
           }
-        }
-      },
-      system_distribution: {
-        validators: {
-          notEmpty: {
-            message: '发行版本不能为空.'
-          },
-        }
-      },
-      system_type: {
-        validators: {
-          notEmpty: {
-            message: '系统类型不能为空.'
-          },
-        }
-      },
-      system_release: {
-        validators: {
-          notEmpty: {
-            message: '系统版本不能为空.'
-          },
-        }
-      },
-      kernel_release: {
-        validators: {
-          notEmpty: {
-            message: '内核版本不能为空.'
-          },
         }
       },
       group: {
@@ -219,6 +227,40 @@ $(function () {
           }
         }
       },
+      manager: {
+        validators: {
+          notEmpty: {
+            message: '开发人员不能为空.'
+          },
+          callback: {
+            message: '开发人员不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
+      admin: {
+        validators: {
+          notEmpty: {
+            message: '运维人员不能为空.'
+          },
+          callback: {
+            message: '运维人员不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
     }
   });
   $('.add_hostValid').click(function () {
@@ -237,7 +279,9 @@ $(function () {
       var idc = $('#idc').val();
       var cabinet = $('#cabinet').val();
       var manufactory = $('#manufactory').val();
-      $.post('/cmdb/hosts_add/', {
+      var manager = $('#manager').val();
+      var admin = $('#admin').val();
+      $.post('/assets/hosts_add/', {
         sn: sn,
         server_model: server_model,
         hostname: hostname,
@@ -251,12 +295,14 @@ $(function () {
         idc: idc,
         cabinet: cabinet,
         manufactory: manufactory,
+        manager: manager,
+        admin: admin,
         },
         function (result, status) {
           if (status == 'success') {
             var result = $.parseJSON(result);
             if (result.status == 'true') {
-              bootbox.alert("<h4 class='text-center'>数据添加成功!</h4>", function(){ self.location='/cmdb/hosts_list/'; });
+              bootbox.alert("<h4 class='text-center'>数据添加成功!</h4>", function(){ self.location='/assets/hosts_list/'; });
             }
           }
         });
@@ -274,24 +320,17 @@ $(function () {
   $('#up_hostForm').bootstrapValidator({
     message: 'This value is not valid',
     fields: {
-      sn: {
+      hostname: {
         validators: {
           notEmpty: {
-            message: 'SN序列号不能为空.'
+            message: '主机名称不能为空.'
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
-            data: { sn: $('#sn').val() },
+            url: '/assets/hosts_upvalid/',
+            data: {hostname: $('#hostname').val(), str_hostname: $('#str_hostname').val() },
             delay :  1000,
-            message: 'SN序列号已存在.'
-          }
-        }
-      },
-      server_model: {
-        validators: {
-          notEmpty: {
-            message: '服务器型号不能为空.'
+            message: '主机名称已存在.'
           }
         }
       },
@@ -303,8 +342,8 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
-            data: {ip: $('#ip').val() },
+            url: '/assets/hosts_upvalid/',
+            data: {ip_address: $('#ip_address').val(), },
             delay :  1000,
             message: '公网地址已存在.'
           }
@@ -321,39 +360,13 @@ $(function () {
           },
           remote: {
             type: 'POST',
-            url: '/api/hosts_valid/',
-            data: {nip: $('#nip').val() },
+            url: '/assets/hosts_upvalid/',
+            data: {nip_address: $('#nip_address').val(), str_nip_address: $('#str_nip_address').val()
+
+            },
             delay :  1000,
             message: '内网地址已存在.'
           }
-        }
-      },
-      system_type: {
-        validators: {
-          notEmpty: {
-            message: '系统类型不能为空.'
-          },
-        }
-      },
-      system_distribution: {
-        validators: {
-          notEmpty: {
-            message: '发行版本不能为空.'
-          },
-        }
-      },
-      system_release: {
-        validators: {
-          notEmpty: {
-            message: '系统版本不能为空.'
-          },
-        }
-      },
-      kernel_release: {
-        validators: {
-          notEmpty: {
-            message: '内核版本不能为空.'
-          },
         }
       },
       group: {
@@ -407,6 +420,57 @@ $(function () {
           }
         }
       },
+      manufactory: {
+        validators: {
+          notEmpty: {
+            message: '服务厂商不能为空.'
+          },
+          callback: {
+            message: '服务厂商不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
+      manager: {
+        validators: {
+          notEmpty: {
+            message: '开发人员不能为空.'
+          },
+          callback: {
+            message: '开发人员不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
+      admin: {
+        validators: {
+          notEmpty: {
+            message: '运维人员不能为空.'
+          },
+          callback: {
+            message: '运维人员不能为空.',
+            callback: function(value, validator) {
+              if (value == '0'){
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      },
     }
   });
   $('.up_hostValid').click(function () {
@@ -415,6 +479,7 @@ $(function () {
       var id = $(this).attr('CurlId');
       var sn = $('#sn').val();
       var server_model = $('#server_model').val();
+      var hostname = $('#hostname').val();
       var ip_address = $('#ip_address').val();
       var nip_address = $('#nip_address').val();
       var system_type = $('#system_type').val();
@@ -424,10 +489,14 @@ $(function () {
       var group = $('#group').val();
       var idc = $('#idc').val();
       var cabinet = $('#cabinet').val();
-      $.post('/cmdb/hosts_update/', {
+      var manufactory = $('#manufactory').val();
+      var manager = $('#manager').val();
+      var admin = $('#admin').val();
+      $.post('/assets/hosts_update/', {
         id: id,
         sn: sn,
         server_model: server_model,
+        hostname: hostname,
         ip_address: ip_address,
         nip_address: nip_address,
         system_type: system_type,
@@ -437,12 +506,15 @@ $(function () {
         group: group,
         idc: idc,
         cabinet: cabinet,
+        manufactory: manufactory,
+        manager: manager,
+        admin: admin,
         },
         function (result, status) {
           if (status == 'success') {
             var result = $.parseJSON(result);
             if (result.status == 'true') {
-              bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/cmdb/hosts_list/'; });
+              bootbox.alert("<h4 class='text-center'>数据更新成功!</h4>", function(){ self.location='/assets/hosts_list/'; });
             }
           }
         });
@@ -474,7 +546,7 @@ $(function () {
       },
       callback: function (result) {
         if (result) {
-          $.post("/cmdb/hosts_delete/", {id: id}, function (result,status) {
+          $.post("/assets/hosts_delete/", {id: id}, function (result,status) {
             if (status == 'success') {
               var result = $.parseJSON(result);
               if (result.status == 'true') {
