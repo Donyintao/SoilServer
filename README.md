@@ -1,10 +1,10 @@
-Salt 运维管理平台
+Soil Service Manager Platform
 ==============================================
 
 [![Python Version](https://img.shields.io/badge/Python--2.7-paasing-green.svg)](https://img.shields.io/badge/Python--3.6-paasing-green.svg)
 [![Django Version](https://img.shields.io/badge/Django--1.11.6-paasing-green.svg)](https://img.shields.io/badge/Django--1.11.0-paasing-green.svg)
 
-> SaltServer 现有功能:
+> SoilServer 现有功能:
 
 - 资产管理
 - 域名管理
@@ -22,7 +22,7 @@ pip install django==1.11.6
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SaltServer',
+        'NAME': 'SoilServer',
         'USER': 'django',
         'PASSWORD': '12345',
         'HOST': '127.0.0.1',
@@ -43,5 +43,11 @@ python manage.py createsuperuser
 python manage.py runserver http://127.0.0.1:8000
 ```
 
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_list.png)
-![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts-details.png)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/hosts_details.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/bind_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/bind_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_list.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_add.jpg)
+![SaltServer](https://raw.githubusercontent.com/Donyintao/SaltServer/master/doc/images/faults_details.jpg)
